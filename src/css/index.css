@@ -1,0 +1,281 @@
+:root {
+    --main-bg-color: #009d63;
+    --main-text-color: #009d63;
+    --second-text-color: #bbbec5;
+    --second-bg-color: #c1efde;
+  }
+  
+  .primary-text {
+    color: var(--main-text-color);
+  }
+  
+  .second-text {
+    color: var(--second-text-color);
+  }
+  
+  .primary-bg {
+    background-color: var(--main-bg-color);
+  }
+  
+  .secondary-bg {
+    background-color: var(--second-bg-color);
+  }
+  
+  .rounded-full {
+    border-radius: 100%;
+  }
+  
+  #wrapper {
+    overflow-x: hidden;
+    background-image: linear-gradient(
+      to right,
+      #baf3d7,
+      #c2f5de,
+      #cbf7e4,
+      #d4f8ea,
+      #ddfaef
+    );
+  }
+  
+  #sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin 0.25s ease-out;
+    -moz-transition: margin 0.25s ease-out;
+    -o-transition: margin 0.25s ease-out;
+    transition: margin 0.25s ease-out;
+  }
+  
+  #sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+  }
+  
+  #sidebar-wrapper .list-group {
+    width: 15rem;
+  }
+  
+  #page-content-wrapper {
+    min-width: 100vw;
+  }
+  
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+  }
+  
+  #menu-toggle {
+    cursor: pointer;
+  }
+  
+  .list-group-item {
+    border: none;
+    padding: 20px 30px;
+  }
+  
+  .list-group-item.active {
+    background-color: transparent;
+    color: var(--main-text-color);
+    font-weight: bold;
+    border: none;
+  }
+  
+  @media (min-width: 768px) {
+    #sidebar-wrapper {
+      margin-left: 0;
+    }
+  
+    #page-content-wrapper {
+      min-width: 0;
+      width: 100%;
+    }
+  
+    #wrapper.toggled #sidebar-wrapper {
+      margin-left: -15rem;
+    }
+  }
+#pages{
+    display: none;
+}
+
+.active{
+    display: block !important;
+}
+
+.contenet-continer{
+  height:95vh;
+  overflow: scroll;
+}
+
+body{
+  overflow: hidden;
+}
+
+.chart {
+  min-width: 21.354166666666668vw;
+  height: 4000px;
+  margin: 0 auto;
+}
+
+.rad {
+  border-radius: 30px;
+}
+
+.hide{
+  display: none;
+}
+
+
+/* Progress BAR From https://jsfiddle.net/bootstrapious/3xnomecr/ */
+
+.progress {
+  width: 150px;
+  height: 150px;
+  background: none;
+  position: relative;
+}
+
+.progress::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 6px solid #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress>span {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.progress .progress-left {
+  left: 0;
+}
+
+.progress .progress-bar {
+  width: 100%;
+  height: 100%;
+  background: none;
+  border-width: 6px;
+  border-style: solid;
+  position: absolute;
+  top: 0;
+}
+
+.progress .progress-left .progress-bar {
+  left: 100%;
+  border-top-right-radius: 80px;
+  border-bottom-right-radius: 80px;
+  border-left: 0;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+}
+
+.progress .progress-right {
+  right: 0;
+}
+
+.progress .progress-right .progress-bar {
+  left: -100%;
+  border-top-left-radius: 80px;
+  border-bottom-left-radius: 80px;
+  border-right: 0;
+  -webkit-transform-origin: center right;
+  transform-origin: center right;
+}
+
+.progress .progress-value {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.rounded-lg {
+  border-radius: 1rem;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+div.h4 {
+  line-height: 1rem;
+}
+
+.CardInfo{
+  width: 150px;
+  height: 150px;
+  background: none;
+  position: relative;
+}
+
+
+/* Signal Strength */
+
+* {
+  box-sizing: border-box;
+}
+
+.signal-bars {
+  display: inline-block;
+  height: 1.38vw;
+  width: 6vw;
+  padding-right: 1.5vw;
+}
+
+.signal-bars .bar {
+  width: 10%;
+  margin-left: 1%;
+  min-height: 20%;
+  display: inline-block;
+}
+
+.signal-bars .bar.first-bar {
+  height: 20%;
+}
+
+.signal-bars .bar.second-bar {
+  height: 40%;
+}
+
+.signal-bars .bar.third-bar {
+  height: 60%;
+}
+
+.signal-bars .bar.fourth-bar {
+  height: 80%;
+}
+
+.signal-bars .bar.fifth-bar {
+  height: 100%;
+}
+
+.good .bar {
+  background-color: #16a085;
+  border: thin solid #12816b;
+}
+
+.bad .bar {
+  background-color: #e74c3c;
+  border: thin solid #a82315;
+}
+
+.ok .bar {
+  background-color: #f1c40f;
+  border: thin solid #d0a90c;
+}
+
+.four-bars .bar.fifth-bar,
+.three-bars .bar.fifth-bar,
+.three-bars .bar.fourth-bar,
+.one-bar .bar:not(.first-bar),
+.two-bars .bar:not(.first-bar):not(.second-bar) {
+  background-color: #fafafa;
+  border: thin solid #f3f3f3;
+}

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="../css/mdb.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/chart/epoch.min.css">
+    <script src="../js/mdb.min.js"></script>
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="../js/chart/d3.min.js"></script>
+    <script src="../js/chart/chart.min.js"></script>
+    <script src="../js/chart/luxon.min.js"></script>
+    <script src="../js/chart/chartjs-adapter-luxon.min.js"></script>
+    <script src="../js/chart/chartjs-plugin-streaming.min.js"></script>
+    <script src="../js/main.js"></script>
+
+  </head>
+  <body>
+    <nav class="navbar bg-light sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="https://getbootstrap.com/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+          H-manager
+        </a>
+        <div class="d-flex">
+          <div>
+            <span id="NetWorkMode">LTE CA (4G+)</span>
+            <div class="signal-bars mt1 sizing-box good m-2">
+              <div class="first-bar bar"></div>
+              <div class="second-bar bar"></div>
+              <div class="third-bar bar"></div>
+              <div class="fourth-bar bar"></div>
+              <div class="fifth-bar bar"></div>
+            </div>
+            <span id="NetWorkMode">LTE CA (4G+)</span>
+            <div class="signal-bars mt1 sizing-box good m-2">
+              <div class="first-bar bar"></div>
+              <div class="second-bar bar"></div>
+              <div class="third-bar bar"></div>
+              <div class="fourth-bar bar"></div>
+              <div class="fifth-bar bar"></div>
+            </div>
+          </div>
+          
+          <a class="navbar-brand" href="#">
+            Status: <img id="ConnectionStatuisIcon" alt="Network" src="../img/network-problem.png" style="margin-left:0.5vw;" height="32"></img>
+          </a>
+        </div>
+      </div>
+    </nav>
+    <div class="d-flex" id="wrapper">
+      <!-- Sidebar -->
+      <div class="bg-white" id="sidebar-wrapper">
+          <div class="list-group list-group-flush my-3">
+              <a href="#" onclick="sidebar('monitor')" class="list-group-item list-group-item-action bg-transparent second-text"><i
+                      class="fas fa-tachometer-alt me-2"></i>Monitor</a>
+              <a href="#" onclick="sidebar('signal')" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                      class="fas fa-project-diagram me-2"></i>Signal</a>
+              <a href="#" onclick="sidebar('wifi')" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                      class="fas fa-chart-line me-2"></i>Wifi</a>
+              <a href="#" onclick="sidebar('deviceInfo')" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                      class="fas fa-paperclip me-2"></i>Reports</a>
+              <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                      class="fas fa-shopping-cart me-2"></i>Store Mng</a>
+              <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                      class="fas fa-gift me-2"></i>Products</a>
+              <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                      class="fas fa-comment-dots me-2"></i>Chat</a>
+              <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                      class="fas fa-map-marker-alt me-2"></i>Outlet</a>
+              <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
+                      class="fas fa-power-off me-2"></i>Logout</a>
+          </div>
+      </div>
+      <!-- /#sidebar-wrapper -->
+      
+      <!-- Page Content -->
+      <div id="page-content-wrapper" class="contenet-continer" style="background-image: linear-gradient(to right bottom, #7d59b7, #7c64c3, #7b6fce, #7a7ad9, #7885e3);">
+      <nav class="navbar navbar-expand-lg py-4 px-4 sticky-top" style="background-color: #b794f6;">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-align-left fs-4 me-3" id="menu-toggle"></i>
+            <h2 class="fs-2 m-0 nav-title">Dashboard</h2>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+    <div id="pages" class="monitor active">
+      <div id="page-content-wrapper">
+        <div class="container-fluid px-4">
+            <div class="row g-3 my-2">
+              <div class="row py-3 px-3 g-3 " style="border-radius: 15px;">
+                <p class="text-center fw-bold shadow-sm p-4 rad" style="font-size: 1.2vw;background-color: beige;">Current Data</p>
+                <div class="col-md-3">
+                    <div class="p-3 bg-white d-flex justify-content-around align-items-center rad" style="height: 15vw; border: 4px solid #6d4ba5; -webkit-box-shadow: 0px 2px 11px 4px rgba(0,0,0,0.22); 
+                    box-shadow: 0px 2px 11px 4px rgba(0,0,0,0.22);">
+                        <div>
+                            <h3 style="font-size: 1.2vw">Download</h3>
+                            <p id="downloadText" style="font-size: 1vw;">15GB</p>
+                        </div>
+                        <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="ci:download"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rad" style="height: 15vw;">
+                        <div>
+                          <h3 style="font-size: 1.2vw">Upload</h3>
+                          <p id="uploadText" style="font-size: 1vw;">15GB</p>
+                        </div>
+                        <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="ci:download" data-rotate="180deg"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rad" style="height: 15vw;">
+                      <div>
+                          <h3 style="font-size: 1.2vw">Download Rate</h3>
+                          <p id="downloadRateText" style="font-size: 1vw;">15GB</p>
+                      </div>
+                      <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="icon-park-outline:download-four"></span>
+                    </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rad" style="height: 15vw;" >
+                      <div>
+                        <h3 style="font-size: 1.2vw">Upload Rate</h3>
+                        <p id="uploadRateText" style="font-size: 1vw;">15GB</p>
+                      </div>
+                      <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="icon-park-outline:download-four" data-rotate="180deg"></span>
+                  </div>
+              </div>
+
+                <div class="col-md-3">
+                  <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rad" style="height: 15vw;">
+                      <div>
+                        <h3 style="font-size: 1.2vw">Total Download</h3>
+                        <p id="totalDownloadText" style="font-size: 1vw;">15GB</p>
+                      </div>
+                      <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="entypo:download"></span>
+                  </div>
+              </div>
+
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rad" style="height: 15vw;">
+                        <div>
+                          <h3 style="font-size: 1.2vw">Total Upload</h3>
+                          <p id="TotalUploadText" style="font-size: 1vw;">15GB</p>
+                        </div>
+                        <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="entypo:upload"></span>
+                    </div>
+                </div>
+
+                
+                <div class="col-md-3">
+                    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rad" style="height: 15vw;">
+                        <div>
+                          <h3 style="font-size: 1.2vw;">Connect Time</h3>
+                          <p id="timeText" style="font-size: 1vw;"></p>
+                        </div>
+                        <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="fa-regular:clock"></span>
+                    </div>
+                </div>
+
+              
+                <div class="col-md-3">
+                  <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rad" style="height: 15vw;">
+                      <div>
+                        <h3 style="font-size: 1.2vw">Total Connect Time</h3>
+                        <p id="totalTimeText" style="font-size: 1vw;">15:56:223</p>
+                      </div>
+                      <span class="iconify" style="width: 5vw; height: 5vw; min-width: 4vw; min-height: 4vw;" data-icon="ant-design:field-time-outlined"></span>
+                  </div>
+              </div>
+            </div>
+            </div>
+        </div>
+        <div class="container-fluid px-4">
+          <div class="row g-3 my-2">
+            <div class="bg-light row py-3 px-3 g-3" style="border-radius: 15px;">
+              <p class="text-center fw-bold" style="font-size: 1.2vw">Monthly Data</p>
+              <div class="col-md-3">
+                  <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded" style="height: 15vw;">
+                      <div>
+                          <h3 style="font-size: 1.2vw">Download</h3>
+                          <p id="CurrentMonthDownloadText" style="font-size: 1vw;">15GB</p>
+                      </div>
+                      <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="ci:download"></span>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded" style="height: 15vw;">
+                      <div>
+                        <h3 style="font-size: 1.2vw">Upload</h3>
+                        <p id="CurrentMonthUploadText" style="font-size: 1vw;">15GB</p>
+                      </div>
+                      <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="ci:download" data-rotate="180deg"></span>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded" style="height: 15vw;">
+                    <div>
+                      <h3 style="font-size: 1.2vw">Current Download For this month</h3>
+                      <p id="CurrentDayUsedText" style="font-size: 1vw;">15GB</p>
+                    </div>
+                    <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="entypo:download"></span>
+                </div>
+            </div>
+
+              
+              <div class="col-md-3">
+                  <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded" style="height: 15vw;">
+                      <div>
+                        <h3 style="font-size: 1.2vw;">Connect Time</h3>
+                        <p id="MonthDurationText" style="font-size: 1vw;"></p>
+                      </div>
+                      <span class="iconify" style="width: 4vw; height: 4vw; min-width: 3vw; min-height: 3vw;" data-icon="fa-regular:clock"></span>
+                  </div>
+              </div>
+
+            
+              <div class="col-md-6">
+                <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded" style="height: 15vw;">
+                    <div>
+                      <h3 style="font-size: 1.2vw">Total Connect Time</h3>
+                      <p id="MonthLastClearTimeText" style="font-size: 1vw;">15:56:223</p>
+                    </div>
+                    <span class="iconify" style="width: 5vw; height: 5vw; min-width: 4vw; min-height: 4vw;" data-icon="ant-design:field-time-outlined"></span>
+                </div>
+            </div>
+
+            
+              <div class="col-md-6">
+                <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded" style="height: 15vw;">
+                    <div>
+                      <h3 style="font-size: 1.2vw">Total Connect Time</h3>
+                      <p id="CurrentDayDurationText" style="font-size: 1vw;">15:56:223</p>
+                    </div>
+                    <span class="iconify" style="width: 5vw; height: 5vw; min-width: 4vw; min-height: 4vw;" data-icon="ant-design:field-time-outlined"></span>
+                </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+</div>
+<div id="pages" class="signal">
+  <div id="page-content-wrapper">
+    <!--
+    <p class="PCI"></p>
+    <p class="CELL_ID"></p>
+    <p class="RSSI"></p>
+    <p class="TR-MODE"></p>
+    =========================== 4G ===========================
+    <p class="4G-RSRQ">1</p>
+    <p class="4G-RSRP">1</p>
+    <p class="4G-SINR">1</p>
+    <p class="4G-ULBANDWIDTH">1</p>
+    <p class="4G-DLBANDWIDTH">1</p>
+    <p class="4G-TXPOWER">1</p>
+    <p class="4G-UL_MCS">1</p>
+    <p class="4G-DL_MCS">1</p>
+    <p class="4G-EARFCN">1</p>
+    <p class="4G-BAND">1</p>
+    <p class="4G-TRANSMODE">1</p>
+    <p class="4G-ULFREQUENCY">1</p>
+    <p class="4G-DLFREQUENCY">1</p>
+    =========================== 5G ===========================
+    <p class="5G-NRULMCS">1</p>
+    <p class="5G-NRTXPOWER">1</p>
+    <p class="5G-NREARFCN">1</p>
+    <p class="5G-NRULFREQ">1</p>
+    <p class="5G-NRDLFREQ">1</p>
+    <p class="5G-NRSINR">1</p>
+    <p class="5G-NRRSRP">1</p>
+    <p class="5G-NRRSRQ">1</p> -->
+    <div class="container py-5">
+      <div class="row signal-contianer">
+    
+      </div>
+    </div>
+    <div class="container py-5">
+      <div id="charts" class="hide row">
+
+      </div>
+    </div>
+    <button type="button" id="Sig-advanced" class="btn btn-primary btn-rounded">Advanced</button>
+  </div>
+</div>
+
+<div id="pages" class="wifi">
+  <div id="page-content-wrapper">
+    <div class="container py-5 d-flex justify-content-center">
+      <div class="row mb-3 text-center">
+        <div class="row justify-content-center m-4 gap-4" style="background-color: rgb(255, 255, 255); padding: 50px; border-radius: 10px;">
+          <span id="PrimaryDNS">12312</span>
+          <span id="PrimaryIPv6DNS">12312</span>
+          <span id="BatteryPercent">12312</span>
+          <span id="SimStatus">12312</span>
+          <span id="currenttotalwifiuser">12312</span>
+          <label class="py-5">Custom Bands</label>
+          <label class="col-sm-4 col-md-4">FDD</label>
+          <label class="col-sm-4 col-md-4">TDD</label>
+          <div class="col-sm-4 col-md-4" style="background-color: rgb(211, 211, 211); border-radius: 10px;">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+              <label class="form-check-label" for="inlineCheckbox3">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+              <label class="form-check-label" for="inlineCheckbox3">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+              <label class="form-check-label" for="inlineCheckbox3">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+              <label class="form-check-label" for="inlineCheckbox3">3</label>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-4" style="background-color: rgb(211, 211, 211); border-radius: 10px;">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+              <label class="form-check-label" for="inlineCheckbox3">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+              <label class="form-check-label" for="inlineCheckbox3">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+              <label class="form-check-label" for="inlineCheckbox3">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+              <label class="form-check-label" for="inlineCheckbox1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+              <label class="form-check-label" for="inlineCheckbox2">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+              <label class="form-check-label" for="inlineCheckbox3">3</label>
+            </div>
+          </div>
+          <label class="col-sm-12 col-md-12 py-5">5G Mode</label>
+          <div class="col-sm-5 col-md-6" style="background-color: rgb(211, 211, 211); border-radius: 10px; padding: 20px;">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <label class="form-check-label" for="flexRadioDefault1">
+                NSA
+              </label>
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+              <label class="form-check-label" for="flexRadioDefault2">
+                SA
+              </label>
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+              <label class="form-check-label" for="flexRadioDefault2">
+                SA+NSA
+              </label>
+          </div>
+          <div class="text-center py-4">
+            <label>Auto band Select</label>
+            <div class="d-grid gap-2 d-md-block">
+              <button class="btn btn-primary" type="button">Auto</button>
+              <button class="btn btn-primary" type="button">5G</button>
+              <button class="btn btn-primary" type="button">4G</button>
+            </div>
+            <button type="submit" class="btn btn-primary my-4">Submit</button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="pages" class="deviceInfo">
+  <div id="page-content-wrapper">
+    <div class="container py-5">
+      <div class="row">
+        <p id="deviceName">213</p>
+        <p id="SerialNumber">12321</p>
+        <p id="Imei">12321</p>
+        <p id="Imsi">123</p>
+        <p id="Iccid">123</p>
+        <p id="Msisdn">123</p>
+        <p id="HardwareVersion">21312</p>
+        <p id="SoftwareVersion"></p>
+        <p id="WebUIVersion"></p>
+        <p id="MacAddress1"></p>
+        <p id="WanIPAddress"></p>
+        <p id="wan_dns_address"></p>
+        <p id="WanIPv6Address"></p>
+        <p id="wan_ipv6_dns_address"></p>
+        <p id="ProductFamily"></p>
+        <p id="Classify"></p>
+        <p id="supportmode"></p>
+        <p id="workmode"></p>
+        <p id="submask"></p>
+        <p id="Mccmnc"></p>
+        <p id="iniversion"></p>
+        <p id="ImeiSvn"></p>
+        <p id="WifiMacAddrWl0"></p>
+        <p id="WifiMacAddrWl1"></p>
+        <p id="spreadname_en"></p>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+    </div>
+  <!-- /#page-content-wrapper -->
+
+  <script>
+    var el = document.getElementById("wrapper");
+    var toggleButton = document.getElementById("menu-toggle");
+
+    toggleButton.onclick = function () {
+        el.classList.toggle("toggled");
+    };
+
+
+</script>
+  </body>
+</html>
